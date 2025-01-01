@@ -139,7 +139,7 @@ function TaskTable() {
       deadline: new Date().toISOString().slice(0, -1),
       priority: "MEDIUM",
       assignedToId: 1,
-      status: "PENDING",
+      status: "TODO",
       createdById: 1,
     });
     setIsCreateModalOpen(true);
@@ -523,10 +523,9 @@ function TaskTable() {
               value={newTask.status}
               onChange={(e) => setNewTask({ ...newTask, status: e.target.value })}
             >
-              <option value="PENDING">Pending</option>
+              <option value="TODO">Todo</option>
               <option value="IN_PROGRESS">In Progress</option>
               <option value="COMPLETED">Completed</option>
-              <option value="TERMINATE">Terminate</option>
             </Select>
           </Label>
         </ModalBody>

@@ -182,7 +182,13 @@ function TaskTable() {
 
       await updateTask(editingTask.id, payload);
       closeEditModal();
-      fetchTasksByUserName(user?.username); 
+      if (user?.roles?.includes('ROLE_ADMIN')) {
+        // Fetch all tasks if the user has the admin role
+        await fetchTasks();
+      } else {
+        // Fetch tasks by username for other roles
+        await fetchTasksByUserName(user?.username);
+      }
     } catch (error) {
       if (error instanceof z.ZodError) {
         // Extract and map Zod validation errors
@@ -215,7 +221,13 @@ const handleCreateTask = async () => {
     // If validation passes, create the task
     await createTask(validatedPayload);
     closeCreateModal();
-    fetchTasksByUserName(user?.username); // Refresh the task list
+    if (user?.roles?.includes('ROLE_ADMIN')) {
+      // Fetch all tasks if the user has the admin role
+      await fetchTasks();
+    } else {
+      // Fetch tasks by username for other roles
+      await fetchTasksByUserName(user?.username);
+    }
   } catch (error) {
     if (error instanceof z.ZodError) {
       // Extract and map Zod validation errors

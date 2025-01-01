@@ -33,6 +33,7 @@ import {
   Legend,
 } from 'chart.js'
 import { useTaskStore } from 'hooks/task/task-store'
+import { useUserStore } from 'hooks/user/user-store'
 
 function Dashboard() {
   Chart.register(
@@ -49,6 +50,42 @@ function Dashboard() {
   const [page, setPage] = useState(1)
   const [data, setData] = useState<ITableData[]>([])
 
+  // const { tasks, fetchTasks } = useTaskStore();
+  const { users, fetchUsers } = useUserStore();
+
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalTasks, setTotalTasks] = useState(0);
+  const [highPriorityTasks, setHighPriorityTasks] = useState(0);
+  const [tasksNext7Days, setTasksNext7Days] = useState(0);
+    // Task store integration
+    const { tasks, fetchTasks, updateTask, createTask, deleteTask } = useTaskStore();
+
+  useEffect(() => {
+    // Fetch tasks and users on mount
+    fetchTasks();
+    fetchUsers();
+  }, [fetchTasks, fetchUsers]);
+
+  useEffect(() => {
+    // Calculate dynamic values from tasks
+    setTotalTasks(tasks.length);
+    setHighPriorityTasks(tasks.filter((task) => task.priority === 'HIGH').length);
+    setTasksNext7Days(
+      tasks.filter((task) => {
+        const taskDate = new Date(task.deadline);
+        const now = new Date();
+        const next7Days = new Date();
+        next7Days.setDate(now.getDate() + 7);
+        return taskDate >= now && taskDate <= next7Days;
+      }).length
+    );
+  }, [tasks]);
+
+  useEffect(() => {
+    // Set total users
+    setTotalUsers(users.length);
+  }, [users]);
+
   // pagination setup
   const resultsPerPage = 10
   const totalResults = response.length
@@ -58,8 +95,7 @@ function Dashboard() {
     setPage(p)
   }
 
-  // Task store integration
-  const { tasks, fetchTasks, updateTask, createTask, deleteTask } = useTaskStore();
+
 
 
   // Paginated data
@@ -89,7 +125,7 @@ function Dashboard() {
       <PageTitle>Dashboard</PageTitle>
       {/* <!-- Cards --> */}
       <div className="grid gap-6 mb-8 md:grid-cols-2 xl:grid-cols-4">
-        <InfoCard title="Total Users" value="6389">
+        <InfoCard title="Total Users" value={totalUsers}>
           {/* @ts-ignore */}
           <RoundIcon
             icon={PeopleIcon}
@@ -100,7 +136,7 @@ function Dashboard() {
         </InfoCard>
 
 
-        <InfoCard title="Total Task" value="376">
+        <InfoCard title="Total Task" value={totalTasks}>
           {/* @ts-ignore */}
           <RoundIcon
             icon={CartIcon}
@@ -110,7 +146,7 @@ function Dashboard() {
           />
         </InfoCard>
 
-        <InfoCard title="Total Task Next 7 Dyas" value="376">
+        <InfoCard title="Total Task Next 7 Dyas" value={tasksNext7Days}>
           {/* @ts-ignore */}
           <RoundIcon
             icon={CartIcon}
@@ -120,7 +156,7 @@ function Dashboard() {
           />
         </InfoCard>
 
-        <InfoCard title="Total High Priority task" value="35">
+        <InfoCard title="Total High Priority task" value={highPriorityTasks}>
           {/* @ts-ignore */}
           <RoundIcon
             icon={ChatIcon}
@@ -215,3 +251,5 @@ function Dashboard() {
 }
 
 export default Dashboard
+
+

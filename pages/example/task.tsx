@@ -283,9 +283,9 @@ function TaskTable() {
             <tr>
               <TableCell>ID</TableCell>
               <TableCell>Title</TableCell>
-              <TableCell>Deadline</TableCell>
-              <TableCell>Priority</TableCell>
-              <TableCell>Status</TableCell>
+              {/* <TableCell>Deadline</TableCell> */}
+              {/* <TableCell>Priority</TableCell>
+              <TableCell>Status</TableCell> */}
               <TableCell>Assigned To</TableCell>
               <TableCell>Created By</TableCell>
               <TableCell>Updated By</TableCell>
@@ -304,12 +304,12 @@ function TaskTable() {
                     <p className="text-xs text-gray-600 dark:text-gray-400">{task.description}</p>
                     <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">DL: {new Date(task.deadline).toLocaleString()}</p>
                     <div className='flex space-x-2 mt-2'>
-                      <Badge className={`text-xs ${getBadgeColor(task.status)}`}>{task.status}</Badge>
-                      <Badge className='text-xs'>{task.priority}</Badge>
+                      <Badge className={`text-xs ${getBadgeColor(task.status)}`}>status: {task.status}</Badge>
+                      <Badge className='text-xs'>priority: {task.priority}</Badge>
                     </div>
                   </div>
                 </TableCell>
-                <TableCell>
+                {/* <TableCell>
                   <span className="text-sm">{new Date(task.deadline).toLocaleString()}</span>
                 </TableCell>
                 <TableCell>
@@ -317,7 +317,7 @@ function TaskTable() {
                 </TableCell>
                 <TableCell>
                   <Badge>{task.status}</Badge>
-                </TableCell>
+                </TableCell> */}
                 <TableCell>
                   <div className="flex items-center text-sm">
                     <Avatar

@@ -273,11 +273,18 @@ const handleCreateTask = async () => {
     const handleTaskAll = async () => {
       console.log("payload.task.all");
       try {
-        await fetchTasksByUserName(user?.username);
+        if (user?.roles?.includes('ROLE_ADMIN')) {
+          // Fetch all tasks if the user has the admin role
+          await fetchTasks();
+        } else {
+          // Fetch tasks by username for other roles
+          await fetchTasksByUserName(user?.username);
+        }
       } catch (error) {
-        console.error("Failed to create task:", error);
+        console.error("Failed to fetch tasks:", error);
       }
     };
+    
 
 
   const openDeleteModal = (task: any) => {

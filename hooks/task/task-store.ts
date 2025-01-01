@@ -11,8 +11,9 @@ interface TaskStore {
   tasks: TaskRetrieveDTO[];
   loading: boolean;
   fetchTasks: () => Promise<void>;
-  fetchTasksToday: () => Promise<void>;
-  fetchTasksNext7day: () => Promise<void>;
+  fetchTasksByUserName: (username: string) => Promise<void>;
+  fetchTasksToday: (username: string) => Promise<void>;
+  fetchTasksNext7day: (username: string) => Promise<void>;
   createTask: (task: TaskCreateDTO) => Promise<void>;
   updateTask: (id: number, updatedTask: TaskUpdateDTO) => Promise<void>;
   deleteTask: (id: number) => Promise<void>;
@@ -53,7 +54,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
   },
 
   // Fetch Tasks today
-  fetchTasksToday: async () => {
+  fetchTasksToday: async (username) => {
     const authToken = Cookies.get("authToken"); // Retrieve token from cookies
     if (!authToken) {
       console.error("No credentials available. Please log in.");
@@ -62,7 +63,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
 
     set({ loading: true });
     try {
-      const response = await fetch(`${API_BASE_URL}/tasks/created-today`, {
+      const response = await fetch(`${API_BASE_URL}/tasks/created-today?username=${username}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -82,7 +83,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
   },
 
   // Fetch Tasks next 7 day
-  fetchTasksNext7day: async () => {
+  fetchTasksNext7day: async (username) => {
     const authToken = Cookies.get("authToken"); // Retrieve token from cookies
     if (!authToken) {
       console.error("No credentials available. Please log in.");
@@ -91,7 +92,7 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
 
     set({ loading: true });
     try {
-      const response = await fetch(`${API_BASE_URL}/tasks/created-next-7-days`, {
+      const response = await fetch(`${API_BASE_URL}/tasks/created-next-7-days?username=${username}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -181,6 +182,35 @@ export const useTaskStore = create<TaskStore>((set, get) => ({
     }
   },
 
+  fetchTasksByUserName: async (username) => {
+    const authToken = Cookies.get("authToken"); // Retrieve token from cookies
+    console.log("updatedTask, iusername",username);
+
+    if (!authToken) {
+      console.error("No credentials available. Please log in.");
+      return;
+    }
+
+    set({ loading: true });
+    try {
+      const response = await fetch(`${API_BASE_URL}/tasks/by-creator-name?username=${username || "none"}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Basic ${authToken}`, // Use the token from cookies
+        },
+      });
+
+      if (!response.ok) throw new Error("Failed to fetch task");
+
+      const data: TaskRetrieveDTO[] = await response.json();
+      set({ tasks: data });
+    } catch (error) {
+      console.error("Failed to fetch tasks:", error);
+    } finally {
+      set({ loading: false });
+    }
+  },
 
   // Delete Task
   deleteTask: async (id: number) => {

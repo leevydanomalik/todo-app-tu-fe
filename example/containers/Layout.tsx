@@ -3,6 +3,7 @@ import SidebarContext, { SidebarProvider } from 'context/SidebarContext'
 import Sidebar from 'example/components/Sidebar'
 import Header from 'example/components/Header'
 import Main from './Main'
+import { UserProvider } from 'context/UserContext'
 
 interface ILayout{
   children: React.ReactNode

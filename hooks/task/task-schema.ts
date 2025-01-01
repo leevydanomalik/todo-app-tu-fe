@@ -36,7 +36,7 @@ export const TaskRetrieveSchema = z.object({
   deadline: z.string().datetime("Invalid date format"),
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]),
   assignedTo: UserSchema,
-  status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED", "TERMINATE"]),
+  status: z.enum(["TODO", "IN_PROGRESS", "COMPLETED"]),
   createdAt: z.string().datetime("Invalid date format"),
   updatedAt: z.string().datetime("Invalid date format"),
   createdBy: UserSchema,
@@ -49,10 +49,10 @@ export const TaskRetrieveSchema = z.object({
 export const TaskCreateSchema = z.object({
   title: z.string().min(1, "Title is required"), // Ensures title is not empty
   description: z.string().min(1, "Description is required"), // Ensures description is not empty
-  deadline: z.string().datetime("Invalid date format"), // Ensures ISO8601 datetime format
+  deadline: z.string(), // Ensures ISO8601 datetime format
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]), // Restricts priority to specific values
-  assignedToId: z.number().int().positive("AssignedToId must be a positive integer"), // Positive long number
-  status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED", "TERMINATE"]), // Restricts status values
+  assignedToId: z.number().int().positive("AssignedToId must be a positive integer").optional().nullable(), // Positive long number
+  status: z.enum(["TODO", "IN_PROGRESS", "COMPLETED"]), // Restricts status values
   createdById: z.number().int().positive("CreatedById must be a positive integer"), // Positive long number
 });
 
@@ -60,10 +60,10 @@ export const TaskCreateSchema = z.object({
 export const TaskUpdateSchema = z.object({
   title: z.string().min(1, "Title is required"), // Ensures title is not empty
   description: z.string().min(1, "Description is required"), // Ensures description is not empty
-  deadline: z.string().datetime("Invalid date format"), // Ensures ISO8601 datetime format
+  deadline: z.string(), // Ensures ISO8601 datetime format
   priority: z.enum(["LOW", "MEDIUM", "HIGH"]), // Restricts priority to specific values
-  assignedToId: z.number().int().positive("AssignedToId must be a positive integer"), // Positive long number
-  status: z.enum(["PENDING", "IN_PROGRESS", "COMPLETED", "TERMINATE"]), // Restricts status values
+  assignedToId: z.number().int().positive("AssignedToId must be a positive integer").optional().nullable(),  // Positive long number
+  status: z.enum(["TODO", "IN_PROGRESS", "COMPLETED"]), // Restricts status values
   updatedById: z.number().int().positive("CreatedById must be a positive integer"), // Positive long number
 });
 

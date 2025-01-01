@@ -13,7 +13,7 @@ interface IRoute {
   exact?: boolean
 }
 
-export function routeIsActive(pathname: String, route: IRoute): boolean {
+export function userRouteIsActive(pathname: String, route: IRoute): boolean {
   if (route.checkActive) {
     return route.checkActive(pathname, route)
   }
@@ -23,29 +23,13 @@ export function routeIsActive(pathname: String, route: IRoute): boolean {
     : (route?.path ? pathname.indexOf(route.path) === 0 : false)
 }
 
-const routes: IRoute[] = [
-  {
-    path: '/example', 
-    icon: 'HomeIcon', 
-    name: 'Dashboard',
-    exact: true,
-  },
+const user_routes: IRoute[] = [
   {
     path: '/example/task',
     icon: 'TablesIcon',
     name: 'Task',
   },
-  {
-    path: '/example/user',
-    icon: 'CardsIcon',
-    name: 'User',
-  },
-  {
-    path: '/example/role',
-    icon: 'ChartsIcon',
-    name: 'Role',
-  },
 ]
 
 export type { IRoute }
-export default routes
+export default user_routes

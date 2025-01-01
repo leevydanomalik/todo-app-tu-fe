@@ -20,6 +20,10 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
+  if (!username || !password) {
+    toast.error('Please enter both username and password.');
+    return;
+  }
     setLoading(true);
     console.log("data: ", username, password);
     try {

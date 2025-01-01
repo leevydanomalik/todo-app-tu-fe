@@ -1,3 +1,6 @@
+"use client"
+
+
 import { useContext, useState, useEffect, useRef } from 'react';
 import SidebarContext from 'context/SidebarContext';
 import {
@@ -13,12 +16,14 @@ import {
 import { Avatar, Badge, Input, WindmillContext } from '@roketid/windmill-react-ui';
 import { useRouter } from 'next/navigation';
 import { useAuth } from 'hooks/auth/auth-store';
+import { useUser } from 'context/UserContext';
 
 function Header() {
   const { mode, toggleMode } = useContext(WindmillContext);
   const { toggleSidebar } = useContext(SidebarContext);
   const router = useRouter();
   const { logout } = useAuth();
+  const { user } = useUser();
 
   const [isNotificationsMenuOpen, setIsNotificationsMenuOpen] = useState(false);
   const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
@@ -132,10 +137,11 @@ function Header() {
             >
               <Avatar
                 className="align-middle"
-                src="https://images.unsplash.com/photo-1502378735452-bc7d86632805?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=aa3a807e1bbdfd4364d1f449eaa96d82"
+                src={`https://randomuser.me/api/portraits/men/${user?.userId}.jpg`}
                 alt=""
                 aria-hidden="true"
               />
+              <span className='ml-2 font-bold'><span className='font-light'>Hi</span>, {user?.username || "NA"}</span>
             </button>
             {isProfileMenuOpen && (
               <div className="absolute right-0 mt-2 bg-white border border-gray-200 rounded-md shadow-md w-48 dark:bg-gray-800">

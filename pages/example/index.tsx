@@ -146,7 +146,7 @@ function Dashboard() {
           />
         </InfoCard>
 
-        <InfoCard title="Total Task Next 7 Dyas" value={tasksNext7Days}>
+        <InfoCard title="Total Task Next 7 Days" value={tasksNext7Days}>
           {/* @ts-ignore */}
           <RoundIcon
             icon={CartIcon}

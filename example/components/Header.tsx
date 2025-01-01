@@ -58,7 +58,7 @@ function Header() {
 
   return (
     <header className="z-40 py-4 bg-white shadow-bottom dark:bg-gray-800">
-      <div className="container flex items-center justify-between h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
+      < div className="container flex items-center justify-end h-full px-6 mx-auto text-purple-600 dark:text-purple-300">
         {/* Mobile hamburger */}
         <button
           className="p-1 mr-5 -ml-1 rounded-md lg:hidden focus:outline-none focus:shadow-outline-purple"
@@ -69,7 +69,7 @@ function Header() {
         </button>
 
         {/* Search input */}
-        <div className="flex justify-center flex-1 lg:mr-32">
+        {/* <div className="flex justify-center flex-1 lg:mr-32">
           <div className="relative w-full max-w-xl mr-6 focus-within:text-purple-500">
             <div className="absolute inset-y-0 flex items-center pl-2">
               <SearchIcon className="w-4 h-4" aria-hidden="true" />
@@ -80,7 +80,7 @@ function Header() {
               aria-label="Search"
             />
           </div>
-        </div>
+        </div> */}
 
         {/* Right Menu */}
         <ul className="flex items-center flex-shrink-0 space-x-6">
@@ -100,7 +100,7 @@ function Header() {
           </li>
 
           {/* Notifications Menu */}
-          <li className="relative" ref={notificationsMenuRef}>
+          {/* <li className="relative" ref={notificationsMenuRef}>
             <button
               className="relative align-middle rounded-md focus:outline-none focus:shadow-outline-purple"
               onClick={() => setIsNotificationsMenuOpen(!isNotificationsMenuOpen)}
@@ -120,7 +120,7 @@ function Header() {
                 <button className="block px-4 py-2 text-sm">Alerts</button>
               </div>
             )}
-          </li>
+          </li> */}
 
           {/* Profile Menu */}
           <li className="relative" ref={profileMenuRef}>

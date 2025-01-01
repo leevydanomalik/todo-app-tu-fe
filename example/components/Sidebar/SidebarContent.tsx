@@ -5,6 +5,7 @@ import { IIcon } from 'icons';
 import SidebarSubmenu from './SidebarSubmenu';
 import { Button } from '@roketid/windmill-react-ui';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 
 function Icon({ icon, ...props }: IIcon) {
   // @ts-ignore
@@ -23,7 +24,7 @@ function SidebarContent({ linkClicked }: ISidebarContent) {
   return (
     <div className="text-gray-500 dark:text-gray-400">
       <Link href="/#" scroll={false}>
-        <div className="ml-6 py-6">{appName}</div>
+        <div className="ml-6 py-6 text-2xl font-bold">{appName}</div>
       </Link>
       <ul>
         {routes.map((route) =>

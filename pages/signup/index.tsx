@@ -4,10 +4,12 @@ import Image from "next/image";
 import { GithubIcon, TwitterIcon } from "icons";
 import { Input, Label, Button, WindmillContext } from "@roketid/windmill-react-ui";
 import { useUserStore } from "hooks/user/user-store";
+import { useAuth } from "hooks/auth/auth-store";
+import { useRouter } from "next/router";
 
 function CrateAccount() {
   const { mode } = useContext(WindmillContext);
-  const { createUser } = useUserStore(); // Access the createUser function from the store
+  const { signup } = useAuth(); // Access the createUser function from the store
   const imgSource =
     mode === "dark"
       ? "/assets/img/create-account-office-dark.jpeg"
@@ -20,6 +22,8 @@ function CrateAccount() {
     agreeToPrivacyPolicy: false,
   });
 
+  const router = useRouter();
+  
   const [error, setError] = useState("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +51,7 @@ function CrateAccount() {
 
     try {
       // Call createUser from the user store
-      await createUser({
+      await signup({
         username: formData.email.split("@")[0], // Use the email's username part as a default
         email: formData.email,
         password: formData.password,
@@ -57,6 +61,9 @@ function CrateAccount() {
       });
 
       alert("Account created successfully!");
+
+      router.push('/login');
+
     } catch (error) {
       console.error("Failed to create account:", error);
       setError("Failed to create account. Please try again.");

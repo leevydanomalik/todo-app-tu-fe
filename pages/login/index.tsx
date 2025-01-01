@@ -27,16 +27,26 @@ function LoginPage() {
   const handleLogin = async () => {
     setLoading(true);
     console.log("data: ", username, password);
+
     try {
-      await login(username, password);
+      const user = await login(username, password); // Assuming `login` returns the user object with roles
       toast.success('Login successful!');
-      router.push('/example'); // Redirect to dashboard or any page after login
+
+      console.log("user_roles", user)
+
+      // Redirect based on the user's role
+      if (user.roles.includes('ROLE_USER')) {
+        router.push('/example');
+      } else {
+        router.push('/example');
+      }
     } catch (error) {
       toast.error('Invalid credentials. Please try again.');
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="flex items-center min-h-screen p-6 bg-gray-50 dark:bg-gray-900">
